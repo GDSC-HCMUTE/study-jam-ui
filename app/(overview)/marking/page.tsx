@@ -1,3 +1,9 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Study Jam | Marking",
+};
+
 const Marking = () => {
   return (
     <div>

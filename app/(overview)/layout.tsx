@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { AiFillHome } from "react-icons/ai";
-import { FaMarker, FaSignInAlt } from "react-icons/fa";
+import { FaMarker } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 import SideBar, { TabItemProps } from "@/components/SideBar/SideBar";
 import ResponsiveLogo from "@/components/ResponsiveLogo/ResponsiveLogo";
+import Image from "next/image";
+import Link from "next/link";
+import { PiSignInBold } from "react-icons/pi";
+import gdscLogo from "@/public/images/gdsc-logo.png";
 
 export const metadata: Metadata = {
   title: "Study Jam | Home",
@@ -32,11 +36,6 @@ export default function OverviewLayout({
       icon: <FaRankingStar className="text-2xl" />,
       path: "/ranking",
     },
-    {
-      label: "Sign In",
-      icon: <FaSignInAlt className="text-2xl" />,
-      path: "/sign-in",
-    },
   ];
 
   return (
@@ -45,7 +44,26 @@ export default function OverviewLayout({
         <ResponsiveLogo />
         <SideBar items={tabItems} />
       </div>
-      <div className="ml-[260px] max-md:ml-[104px]">{children}</div>
+      <div className="pt-5 pr-5 ml-[260px] max-md:ml-[104px]">
+        <div className="flex justify-between items-center">
+          {/* TODO: use another logo with no padding */}
+          <Link
+            className="w-2/3"
+            href="https://www.facebook.com/gdsc.hcmute"
+            target="blank"
+          >
+            <Image src={gdscLogo} alt="GDSC - HCMUTE logo" />
+          </Link>
+          <Link
+            className="w-1/3 flex justify-end gap-2 hover:text-blue hover:cursor-pointer"
+            href="/sign-in"
+          >
+            <h1 className="">Sign In</h1>
+            <PiSignInBold className="text-2xl" />
+          </Link>
+        </div>
+        {children}
+      </div>
     </div>
   );
 }
