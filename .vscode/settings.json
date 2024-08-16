@@ -3,5 +3,5 @@
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["antd", "GDSC", "HCMUTE"]
+  "cSpell.words": ["antd", "GDSC", "HCMUTE", "hookform"]
 }

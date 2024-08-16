@@ -1,16 +1,19 @@
 "use client";
 
+import { signIn } from "@/actions/auth-action";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import TextInput from "@/components/TextInput/TextInput";
-import { SignInSchema, SignInSchemaType } from "@/validations/sign-in";
+import useSubmitFunction from "@/hooks/useSubmitFunction";
+import { SignInSchema, SignInSchemaType } from "@/common/definitions";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { notification } from "antd";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
 
 const SignInForm = () => {
   const {
     control,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
     handleSubmit,
   } = useForm<SignInSchemaType>({
     defaultValues: {
@@ -20,9 +23,34 @@ const SignInForm = () => {
     resolver: zodResolver(SignInSchema),
     mode: "all",
   });
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotification = (message: string, description: string) => {
+    api.error({
+      message,
+      description,
+      placement: "bottomRight",
+      showProgress: true,
+      pauseOnHover: false,
+    });
+  };
+
+  const { isLoading, callSubmission } = useSubmitFunction(
+    signIn,
+    (error) =>
+      openNotification(
+        "Authentication failed",
+        error.message ?? "Please try again!"
+      ),
+    () =>
+      openNotification(
+        "Authentication failed",
+        "An error occurred while processing authentication. Please try again!"
+      )
+  );
 
   const handleSignIn = handleSubmit((data) => {
-    console.log(data);
+    callSubmission(data);
   });
 
   return (
@@ -62,7 +90,7 @@ const SignInForm = () => {
         <CustomButton
           label="Sign in"
           type="primary"
-          isLoading={isSubmitting}
+          isLoading={isLoading}
           isDisabled={!isValid}
           onClick={handleSignIn}
         />
@@ -70,6 +98,7 @@ const SignInForm = () => {
           Back to Home
         </Link>
       </div>
+      {contextHolder}
     </div>
   );
 };
