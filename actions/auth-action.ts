@@ -1,7 +1,7 @@
 "use server";
 
 import { ActionResponse, SignInSchemaType } from "@/common/definitions";
-import { createSession } from "@/utils/session";
+import { createSession, deleteSession } from "@/utils/session";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { redirect, RedirectType } from "next/navigation";
 
@@ -38,4 +38,8 @@ export const signIn = async (
       redirect("/", RedirectType.replace);
     }
   }
+};
+
+export const signOut = async () => {
+  deleteSession();
 };

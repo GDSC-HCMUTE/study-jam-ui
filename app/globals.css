@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 :root {
-  --blue: #3879f0;
+  --blue: #3879f0f2;
   --breakpoint: 768px;
 }
