@@ -10,6 +10,7 @@ import Link from "next/link";
 import { PiSignInBold } from "react-icons/pi";
 import gdscLogo from "@/public/images/gdsc-logo.png";
 import { getCurrentUser } from "@/actions/user-action";
+import { UserRoles } from "@/common/constants";
 
 export const metadata: Metadata = {
   title: "Study Jam | Home",
@@ -42,7 +43,7 @@ export default async function OverviewLayout({
   const currentUser = await getCurrentUser();
   if (currentUser) {
     // TODO: update the if statement below with other roles
-    if (currentUser.role === "SUPER_ADMIN") {
+    if (currentUser.role === UserRoles.SUPER_ADMIN) {
       tabItems.push({
         label: "Users",
         icon: <FaUsers className="text-2xl" />,

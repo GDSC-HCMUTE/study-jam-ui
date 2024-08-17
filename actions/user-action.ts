@@ -1,9 +1,8 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { cache } from "react";
 
-export const getCurrentUser = cache(async () => {
+export const getCurrentUser = async () => {
   const session = cookies().get("session")?.value;
   if (!session) {
     return null;
@@ -25,4 +24,4 @@ export const getCurrentUser = cache(async () => {
     );
     return null;
   }
-});
+};
