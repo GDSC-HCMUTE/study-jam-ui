@@ -18,7 +18,7 @@ interface DataTableProps {
 
 const CustomTable = ({ data }: DataTableProps) => {
   const allKeys = Array.from(new Set(data.flatMap(Object.keys)));
-  const ConvertToNaturalString = (key: string) => {
+  const convertToNaturalString = (key: string) => {
     return key
       .replace(/([A-Z])/g, " $1")
       .replace(/^./, (str) => str.toUpperCase());
@@ -48,7 +48,7 @@ const CustomTable = ({ data }: DataTableProps) => {
     }
 
     return {
-      title: ConvertToNaturalString(key),
+      title: convertToNaturalString(key),
       dataIndex: key,
       key,
     };
