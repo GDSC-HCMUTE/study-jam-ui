@@ -1,24 +1,58 @@
 "use client";
 
-import React from 'react';
-import { Table } from 'antd';
+import React from "react";
+import { Table } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import { Button, Flex, Tooltip } from "antd";
+import { boolean } from "zod";
+import { EditTwoTone, DeleteTwoTone } from "@ant-design/icons";
 
-interface DataType {
+interface DataTable {
   [key: string]: any;
+  flagSetting: boolean;
 }
 
-interface CustomTableProps {
-  data: DataType[];
+interface DataTableProps {
+  data: DataTable[];
 }
 
-const CustomTable: React.FC<CustomTableProps> = ({ data }) => {
+const CustomTable = ({ data }: DataTableProps) => {
   const allKeys = Array.from(new Set(data.flatMap(Object.keys)));
-    const columns = allKeys.map((key) => ({
-    title: key.charAt(0).toUpperCase() + key.slice(1),
-    dataIndex: key,
-    key,
-  }));
+  const ConvertToNaturalString = (key: string) => {
+    return key
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (str) => str.toUpperCase());
+  };
+  const columns = allKeys.map((key) => {
+    if (key === "flagSetting") {
+      return {
+        title: "Setting",
+        dataIndex: key,
+        key,
+        render: (flagSetting: boolean) =>
+          flagSetting ? (
+            <Flex gap="small" vertical>
+              <Flex wrap gap="small">
+                <Button>
+                  <EditTwoTone />
+                </Button>
+                <Button>
+                  <DeleteTwoTone />
+                </Button>
+              </Flex>
+            </Flex>
+          ) : (
+            ""
+          ),
+      };
+    }
 
+    return {
+      title: ConvertToNaturalString(key),
+      dataIndex: key,
+      key,
+    };
+  });
   return <Table columns={columns} dataSource={data} />;
 };
 
