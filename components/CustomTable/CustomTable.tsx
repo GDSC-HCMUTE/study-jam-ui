@@ -1,58 +1,52 @@
 "use client";
 
 import React from "react";
-import { Table } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
-import { Button, Flex, Tooltip } from "antd";
-import { boolean } from "zod";
+import { Table, Button, Flex } from "antd";
 import { EditTwoTone, DeleteTwoTone } from "@ant-design/icons";
+import type { ColumnsType } from "antd/es/table";
 
-interface DataTable {
+interface TableData {
   [key: string]: any;
-  flagSetting: boolean;
 }
 
-interface DataTableProps {
-  data: DataTable[];
+interface CustomTableProps {
+  data: TableData[];
+  showActionButtons: boolean;
 }
 
-const CustomTable = ({ data }: DataTableProps) => {
+const CustomTable = ({ data, showActionButtons }: CustomTableProps) => {
   const allKeys = Array.from(new Set(data.flatMap(Object.keys)));
   const convertToNaturalString = (key: string) => {
     return key
       .replace(/([A-Z])/g, " $1")
       .replace(/^./, (str) => str.toUpperCase());
   };
-  const columns = allKeys.map((key) => {
-    if (key === "flagSetting") {
-      return {
-        title: "Setting",
-        dataIndex: key,
-        key,
-        render: (flagSetting: boolean) =>
-          flagSetting ? (
-            <Flex gap="small" vertical>
-              <Flex wrap gap="small">
-                <Button>
-                  <EditTwoTone />
-                </Button>
-                <Button>
-                  <DeleteTwoTone />
-                </Button>
-              </Flex>
-            </Flex>
-          ) : (
-            ""
-          ),
-      };
-    }
 
-    return {
-      title: convertToNaturalString(key),
-      dataIndex: key,
-      key,
-    };
-  });
+  const columns: ColumnsType<TableData> = allKeys.map((key) => ({
+    title: convertToNaturalString(key),
+    dataIndex: key,
+    key,
+  }));
+
+  if (showActionButtons) {
+    columns.push({
+      title: "Actions",
+      key: "actions",
+      render: () => (
+        <Flex gap="small" vertical>
+          <Flex wrap gap="small">
+            <Button>
+              <EditTwoTone />
+            </Button>
+            <Button>
+              <DeleteTwoTone />
+            </Button>
+          </Flex>
+        </Flex>
+      ),
+    });
+  }
+
   return <Table columns={columns} dataSource={data} />;
 };
 

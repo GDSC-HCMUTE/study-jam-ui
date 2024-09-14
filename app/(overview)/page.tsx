@@ -1,5 +1,5 @@
 import CustomTable from "@/components/CustomTable/CustomTable";
-const DataTable = [
+const data = [
   {
     key: "1",
     userName: "Mai Hồng Tín",
@@ -8,7 +8,6 @@ const DataTable = [
     event: "Event A",
     team: "Team X",
     role: "Leader",
-    flagSetting: true,
   },
   {
     key: "2",
@@ -17,7 +16,6 @@ const DataTable = [
     creationDate: "2023-09-02",
     event: "Event B",
     role: "Admin",
-    flagSetting: true,
   },
 ];
 
@@ -25,7 +23,7 @@ const Home = () => {
   return (
     <div>
       <h1 className="text-lg font-bold">Home</h1>
-      <CustomTable data={DataTable} />
+      <CustomTable data={data} showActionButtons={true} />
     </div>
   );
 };
